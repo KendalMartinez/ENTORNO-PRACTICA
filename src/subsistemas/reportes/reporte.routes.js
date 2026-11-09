@@ -1,0 +1,1 @@
+const r=require("express").Router(),c=require("./reporte.controller"),auth=require("../../shared/middlewares/authenticate"),allow=require("../../shared/middlewares/authorize");r.get("/resumen",auth,allow("ADMIN"),c.resumen);module.exports=r;

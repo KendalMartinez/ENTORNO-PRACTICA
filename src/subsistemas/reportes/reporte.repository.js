@@ -1,0 +1,1 @@
+const p=require("../../shared/database/prisma");const resumen=async()=>{const [usuarios,equipos,tareas,comentarios,porEstado]=await Promise.all([p.usuario.count(),p.equipo.count(),p.tarea.count(),p.comentario.count(),p.tarea.groupBy({by:["estado"],_count:{_all:true}})]);return{usuarios,equipos,tareas,comentarios,tareasPorEstado:porEstado}};module.exports={resumen};

@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum RolNombre {
+  ADMIN
+  DEVELOPER
+}
+
+enum EstadoTarea {
+  PENDIENTE
+  EN_PROGRESO
+  COMPLETADA
+}
+
+model Usuario {
+  id          Int          @id @default(autoincrement())
+  nombre      String
+  correo      String       @unique
+  password    String
+  rol         RolNombre    @default(DEVELOPER)
+  activo      Boolean      @default(true)
+  equipoId    Int?
+  equipo      Equipo?      @relation(fields: [equipoId], references: [id], onDelete: SetNull)
+  tareas      Tarea[]      @relation("Responsable")
+  comentarios Comentario[]
+  creadoEn    DateTime     @default(now())
+  actualizadoEn DateTime   @updatedAt
+  @@index([equipoId])
+}
+
+model Equipo {
+  id          Int       @id @default(autoincrement())
+  nombre      String    @unique
+  descripcion String?
+  usuarios    Usuario[]
+  tareas      Tarea[]
+  creadoEn    DateTime  @default(now())
+  actualizadoEn DateTime @updatedAt
+}
+
+model Tarea {
+  id            Int          @id @default(autoincrement())
+  titulo        String
+  descripcion   String?
+  estado        EstadoTarea  @default(PENDIENTE)
+  equipoId      Int
+  responsableId Int?
+  equipo        Equipo       @relation(fields: [equipoId], references: [id], onDelete: Cascade)
+  responsable   Usuario?     @relation("Responsable", fields: [responsableId], references: [id], onDelete: SetNull)
+  comentarios   Comentario[]
+  creadoEn      DateTime     @default(now())
+  actualizadoEn DateTime     @updatedAt
+  @@index([equipoId])
+  @@index([responsableId])
+}
+
+model Comentario {
+  id        Int      @id @default(autoincrement())
+  contenido String   @db.VarChar(500)
+  tareaId   Int
+  usuarioId Int
+  tarea     Tarea    @relation(fields: [tareaId], references: [id], onDelete: Cascade)
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  creadoEn  DateTime @default(now())
+  @@index([tareaId])
+  @@index([usuarioId])
+}

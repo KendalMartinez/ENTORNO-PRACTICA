@@ -1,0 +1,1 @@
+const r=require("express").Router(),c=require("./equipo.controller"),auth=require("../../shared/middlewares/authenticate"),allow=require("../../shared/middlewares/authorize");r.use(auth);r.get("/",c.findAll);r.get("/:id",c.findById);r.post("/",allow("ADMIN"),c.create);r.put("/:id",allow("ADMIN"),c.update);r.delete("/:id",allow("ADMIN"),c.remove);module.exports=r;

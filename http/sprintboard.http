@@ -1,0 +1,58 @@
+@baseUrl = http://localhost:3000/api/v1
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImNvcnJlbyI6ImFkbWluQHNwcmludGJvYXJkLmNvbSIsInJvbCI6IkFETUlOIiwiaWF0IjoxNzk0MTgzMjc2LCJleHAiOjE3OTQxOTA0NzZ9.SFHmTI01SFJpsC_Stj3F4g2uDY1C00ATalJGQuKNAzc
+
+### Salud
+GET {{baseUrl}}/health
+
+### Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{"correo":"admin@sprintboard.com","password":"Admin12345"}
+
+### Usuario autenticado
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### Crear usuario
+POST {{baseUrl}}/usuarios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"nombre":"Developer Prueba","correo":"dev@sprintboard.com","password":"Dev12345","rol":"DEVELOPER","equipoId":1}
+
+### Listar usuarios
+GET {{baseUrl}}/usuarios
+Authorization: Bearer {{token}}
+
+### Crear equipo
+POST {{baseUrl}}/equipos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"nombre":"Equipo Dos","descripcion":"Equipo de prueba"}
+
+### Crear tarea
+POST {{baseUrl}}/tareas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"titulo":"Probar Pull Request","descripcion":"Verificar el flujo Git","equipoId":1,"responsableId":1}
+
+### Cambiar estado
+PATCH {{baseUrl}}/tareas/1/estado
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"estado":"EN_PROGRESO"}
+
+### Crear comentario
+POST {{baseUrl}}/comentarios/tarea/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"contenido":"La rama está lista para revisión"}
+
+### Reporte
+GET {{baseUrl}}/reportes/resumen
+Authorization: Bearer {{token}}

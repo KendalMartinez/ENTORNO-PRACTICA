@@ -1,0 +1,1 @@
+require("dotenv").config();const app=require("./app"),prisma=require("./shared/database/prisma");const port=process.env.PORT||3000;(async()=>{try{await prisma.$connect();app.listen(port,()=>console.log(`SprintBoard API: http://localhost:${port}`))}catch(e){console.error(e);process.exit(1)}})();
