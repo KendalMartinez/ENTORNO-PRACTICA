@@ -1,1 +1,55 @@
-const s=require("./equipo.service");const wrap=fn=>async(req,res,next)=>{try{await fn(req,res)}catch(e){next(e)}};module.exports={create:wrap(async(req,res)=>res.status(201).json({success:true,data:await s.create(req.body)})),findAll:wrap(async(req,res)=>res.json({success:true,data:await s.findAll()})),findById:wrap(async(req,res)=>res.json({success:true,data:await s.findById(+req.params.id)})),update:wrap(async(req,res)=>res.json({success:true,data:await s.update(+req.params.id,req.body)})),remove:wrap(async(req,res)=>{await s.remove(+req.params.id);res.json({success:true,message:"Equipo eliminado"})})};
+
+const s = require("./equipo.service");
+
+const wrap = fn => async (req, res, next) => {
+  try {
+    await fn(req, res);
+  } catch (e) {
+    next(e);
+  }
+};
+
+module.exports = {
+  create: wrap(async (req, res) =>
+    res.status(201).json({
+      success: true,
+      data: await s.create(req.body)
+    })
+  ),
+
+  findAll: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      data: await s.findAll()
+    })
+  ),
+
+  findById: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      data: await s.findById(+req.params.id)
+    })
+  ),
+
+  getResumen: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      data: await s.getResumen(Number(req.params.id))
+    })
+  ),
+
+  update: wrap(async (req, res) =>
+    res.json({
+      success: true,
+      data: await s.update(+req.params.id, req.body)
+    })
+  ),
+
+  remove: wrap(async (req, res) => {
+    await s.remove(+req.params.id);
+    res.json({
+      success: true,
+      message: "Equipo eliminado"
+    });
+  })
+};
