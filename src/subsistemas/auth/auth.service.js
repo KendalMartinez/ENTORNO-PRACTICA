@@ -8,6 +8,6 @@ const login = async ({ correo, password }) => {
   if (!usuario || !usuario.activo || !(await bcrypt.compare(password, usuario.password))) {
     throw new AppError("Credenciales incorrectas", 401);
   }
-  return { token: jwt.sign(usuario), usuario: { id: usuario.id, nombre: usuario.nombre, correo: usuario.correo, rol: usuario.rol } };
+  return { token: jwt.sign(usuario),expiraEn: "1 hora", usuario: { id: usuario.id, nombre: usuario.nombre, correo: usuario.correo, rol: usuario.rol } };
 };
 module.exports = { login };
