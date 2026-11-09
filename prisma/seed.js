@@ -2,7 +2,7 @@ require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
-
+// KENDAL MARTINEZ ESTUVE ACA. MUCHO GUSTO........
 async function main() {
   const equipo = await prisma.equipo.upsert({
     where: { nombre: "Backend Team" },
